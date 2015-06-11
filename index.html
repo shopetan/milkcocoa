@@ -14,23 +14,42 @@
       </div>
     </div>
 
+    <script src='https://cdn.mlkcca.com/v2.0.0/milkcocoa.js'></script>
 
     <script>
-    (function(global){
-    global.onload = onload;
-      function onload() {
-        var new_contnt = document.getElementById("new_content");
-        var create_button = document.getElementById("create_btn");
-        var todos = document.getElementById("todos");
+    var new_content = document.getElementById("new_content");
+    var create_button = document.getElementById("create_btn");
+    var todos = document.getElementById("todos");
 
-        create_button.addEventListener("click",function(e){
-          var element = document.createElement("div");
-          element.textContent = new_content.value;
-          todos.appendChild(element);
-          new_content.value = "";
+    // 1.データストアの作成
+    var milkcocoa = new MilkCocoa("flagias8thv7.mlkcca.com");
+    var todoDataStore = milkcocoa.dataStore("todos");
+
+    // 2.データの取得
+    todoDataStore.stream().sort('desc').size(20).next(function(err, todos) {
+        todos.forEach(function(todo) {
+            render_todo(todo.value);
         });
-      }
-    }(window))
+    });
+
+    // 3.データの追加
+    create_button.addEventListener("click", function(e) {
+      todoDataStore.push({
+        content : new_content.value
+      });
+      new_content.value = "";
+    });
+
+    // 4.データ追加の監視
+    todoDataStore.on('push', function(pushed) {
+        render_todo(pushed.value);
+    });
+
+    function render_todo(todo) {
+        var element = document.createElement('div');
+        element.textContent = todo.content
+        todos.appendChild(element);
+    }
 
     </script>
 
