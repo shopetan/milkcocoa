@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <div>
+        <input id="new_content" type="text"/>
+        <button id="create_btn">追加</button>
+      </div>
+      <div id="todos">
+      </div>
+    </div>
+
+
+    <script>
+    (function(global){
+    global.onload = onload;
+      function onload() {
+        var new_contnt = document.getElementById("new_content");
+        var create_button = document.getElementById("create_btn");
+        var todos = document.getElementById("todos");
+
+        create_button.addEventListener("click",function(e){
+          var element = document.createElement("div");
+          element.textContent = new_content.value;
+          todos.appendChild(element);
+          new_content.value = "";
+        });
+      }
+    }(window))
+
+    </script>
+
+  </body>
+</html>
