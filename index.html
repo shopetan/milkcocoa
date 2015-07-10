@@ -33,7 +33,6 @@
       getUser(function(err, user_id) {
 
           var todoDataStore = milkcocoa.dataStore('todos').child(user_id);
-
           todoDataStore.stream().sort('desc').size(20).next(function(err, todos) {
               todos.forEach(function(todo) {
       		    render_todo(todo.value);
